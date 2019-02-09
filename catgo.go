@@ -3,19 +3,17 @@ package catgo
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
 	_ "github.com/go-sql-driver/mysql" // import your used driver
-	xormCore "github.com/go-xorm/core"
-	"github.com/go-xorm/xorm"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-var Orm *xorm.Engine
+var Db *gorm.DB
 
 func Run() {
 	initView()
-	//initDb()
-	initDbXorm()
+	initDb()
 	initValidation()
 	beego.Run()
 }
@@ -24,7 +22,7 @@ func initView() {
 	beego.SetViewsPath("public/themes/default/")
 }
 
-func initDbXorm() {
+func initDb() {
 	dbUser := beego.AppConfig.String("db.user")
 	dbPass := beego.AppConfig.String("db.pass")
 	dbHost := beego.AppConfig.String("db.host")
@@ -32,38 +30,19 @@ func initDbXorm() {
 	dbName := beego.AppConfig.String("db.name")
 	dbCharset := beego.AppConfig.String("db.charset")
 	dbPrefix := beego.AppConfig.String("db.prefix")
-	dbDebug, _ := beego.AppConfig.Bool("db.debug")
+	//dbDebug, _ := beego.AppConfig.Bool("db.debug")
 	maxIdleConn, _ := beego.AppConfig.Int("db.max_idle_conn")
 	maxOpenConn, _ := beego.AppConfig.Int("db.max_open_conn")
-
 	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s", dbUser, dbPass, dbHost, dbPort, dbName, dbCharset) + "&loc=Asia%2FChongqing"
 	fmt.Println(dbLink)
-	var err error
-	Orm, err = xorm.NewEngine("mysql", dbLink)
-	Orm.ShowSQL(dbDebug)
-	Orm.SetMaxOpenConns(maxOpenConn)
-	Orm.SetMaxIdleConns(maxIdleConn)
-	tbMapper := xormCore.NewPrefixMapper(xormCore.SnakeMapper{}, dbPrefix)
-	Orm.SetTableMapper(tbMapper)
 
-	fmt.Println(err)
-}
+	Db, _ := gorm.Open("mysql", dbLink)
+	Db.DB().SetMaxIdleConns(maxIdleConn)
+	Db.DB().SetMaxOpenConns(maxOpenConn)
 
-func initDb() {
-	orm.Debug = true
-	orm.RegisterDriver("mysql", orm.DRMySQL)
-	// database
-	dbUser := beego.AppConfig.String("db.user")
-	dbPass := beego.AppConfig.String("db.pass")
-	dbHost := beego.AppConfig.String("db.host")
-	dbPort := beego.AppConfig.String("db.port")
-	dbName := beego.AppConfig.String("db.name")
-	dbCharset := beego.AppConfig.String("db.charset")
-	maxIdleConn, _ := beego.AppConfig.Int("db.max_idle_conn")
-	maxOpenConn, _ := beego.AppConfig.Int("db.max_open_conn")
-	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s", dbUser, dbPass, dbHost, dbPort, dbName, dbCharset) + "&loc=Asia%2FChongqing"
-	// set default database
-	orm.RegisterDataBase("default", "mysql", dbLink, maxIdleConn, maxOpenConn)
+	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+		return dbPrefix + defaultTableName
+	}
 }
 
 func initValidation() {
