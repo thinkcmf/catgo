@@ -12,15 +12,15 @@ type RestBaseController struct {
 }
 
 func (this *RestBaseController) Prepare() {
-	fmt.Println("prepare")
-
-	user := this.CurrentUser()
-
-	fmt.Println(user)
-
-	if user == nil {
-		this.Error("没有登录")
-	}
+	//fmt.Println("prepare")
+	//
+	//user := this.CurrentUser()
+	//
+	//fmt.Println(user)
+	//
+	//if user == nil {
+	//	this.Error("没有登录")
+	//}
 
 }
 
