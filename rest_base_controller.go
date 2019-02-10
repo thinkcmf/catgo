@@ -59,10 +59,10 @@ func (this *RestBaseController) Success(message string, data ...interface{}) {
 	}
 
 	result := struct {
-		Msg  string
-		Url  string
-		Data interface{}
-		Code int
+		Msg  string `json:"msg"`
+		Url  string `json:"url"`
+		Data interface{} `json:"data"`
+		Code int  `json:"code"`
 	}{
 		Url:  url,
 		Data: mData,
@@ -112,10 +112,10 @@ func (this *RestBaseController) Error(message string, data ...interface{}) {
 	}
 
 	result := struct {
-		Msg  string
-		Url  string
-		Data interface{}
-		Code int
+		Msg  string `json:"msg"`
+		Url  string `json:"url"`
+		Data interface{} `json:"data"`
+		Code int  `json:"code"`
 	}{
 		Url:  url,
 		Data: mData,
@@ -128,7 +128,6 @@ func (this *RestBaseController) Error(message string, data ...interface{}) {
 	this.setDevHeader()
 
 	this.ServeJSON()
-
 }
 
 func (this *RestBaseController) setDevHeader() {

@@ -5,7 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
-	_ "github.com/go-sql-driver/mysql" // import your used driver
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -40,11 +40,18 @@ func initDbGorm() {
 	maxOpenConn, _ := beego.AppConfig.Int("db.max_open_conn")
 	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s", dbUser, dbPass, dbHost, dbPort, dbName, dbCharset) + "&loc=Asia%2FChongqing"
 	fmt.Println(dbLink)
+	
+	var err error;
 
-	Db, _ := gorm.Open("mysql", dbLink)
+	Db, err = gorm.Open("mysql", dbLink)
+
+	if err != nil {
+	println(err);
+	}
 	Db.DB().SetMaxIdleConns(maxIdleConn)
 	Db.DB().SetMaxOpenConns(maxOpenConn)
 
+	Db.SingularTable(true)
 	gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
 		return dbPrefix + defaultTableName
 	}
