@@ -1,4 +1,4 @@
-module api_demo
+module github.com/thinkcmf/catgo/examples/api_demo
 
 go 1.15
 

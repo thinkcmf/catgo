@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"api_demo/api/admin/model"
 	"github.com/gin-gonic/gin"
 	"github.com/thinkcmf/catgo"
+	"github.com/thinkcmf/catgo/examples/api_demo/api/admin/model"
 	"strconv"
 )
 
