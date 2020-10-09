@@ -1,0 +1,5 @@
+package catgo
+
+func init() {
+
+}
