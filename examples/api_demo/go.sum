@@ -84,8 +84,8 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/syndtr/goleveldb v0.0.0-20181127023241-353a9fca669c/go.mod h1:Z4AUp2Km+PwemOoO/VB5AOx9XSsIItzFjoJlOSiYmn0=
-github.com/thinkcmf/catgo v0.0.0-20201009082635-45e8c9a12a12 h1:v6Trfr7PXydWUnq6Y3QkChAfwH4wPAptWRiE/4D1/+w=
-github.com/thinkcmf/catgo v0.0.0-20201009082635-45e8c9a12a12/go.mod h1:nMU5g0bw3XWTgZv6zkSjZvM6k0gDXdkJw0yyU1fFZAU=
+github.com/thinkcmf/catgo v0.0.0-20201009090913-ddd9338bc59b h1:rN2l+KGgs1VtUVRDKkRPfe4PGGPHdNJRbKwY9Rs56ro=
+github.com/thinkcmf/catgo v0.0.0-20201009090913-ddd9338bc59b/go.mod h1:nMU5g0bw3XWTgZv6zkSjZvM6k0gDXdkJw0yyU1fFZAU=
 github.com/ugorji/go v1.1.7 h1:/68gy2h+1mWMrwZFeD1kQialdSzAb432dtpeJ42ovdo=
 github.com/ugorji/go v1.1.7/go.mod h1:kZn38zHttfInRq0xu/PH0az30d+z6vm202qpg1oXVMw=
 github.com/ugorji/go/codec v1.1.7 h1:2SvQaVZ1ouYrrKKwoSk2pzd4A9evlKJb9oTL+OaLUSs=
