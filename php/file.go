@@ -1,7 +1,6 @@
 package php
 
 import (
-	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"os"
 )
@@ -27,7 +26,7 @@ func FileGetBytes(path string) ([]byte, error) {
 func FileMd2Html(path string) string {
 
 	contentBytes, _ := FileGetBytes(path)
-	contentBytes = blackfriday.MarkdownCommon(contentBytes)
+	//contentBytes = blackfriday.m(contentBytes)
 
 	return string(contentBytes)
 }
