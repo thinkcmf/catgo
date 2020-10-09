@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "api_demo/api/admin"
-	_ "api_demo/api/user"
+	_ "github.com/thinkcmf/catgo/examples/api_demo/api/admin"
+	_ "github.com/thinkcmf/catgo/examples/api_demo/api/user"
 	"github.com/thinkcmf/catgo"
 	"github.com/gin-gonic/gin"
 )
