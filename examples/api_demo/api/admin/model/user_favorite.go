@@ -7,7 +7,7 @@ type UserFavorite struct {
 	Thumbnail   string `gorm:"column:thumbnail;type:varchar(100);default:''" json:"thumbnail"`          // 缩略图
 	Url         string `gorm:"column:url;type:varchar(255);default:null" json:"url"`                    // 收藏内容的原文地址，JSON格式
 	Description string `gorm:"column:description;type:text;default:null" json:"description"`            // 收藏内容的描述
-	TableName   string `gorm:"column:table_name;type:varchar(64);default:''" json:"table_name"`         // 收藏实体以前所在表,不带前缀
+	Table       string `gorm:"column:table_name;type:varchar(64);default:''" json:"table_name"`         // 收藏实体以前所在表,不带前缀
 	ObjectId    uint   `gorm:"column:object_id;type:int(10) unsigned;default:'0'" json:"object_id"`     // 收藏内容原来的主键id
 	CreateTime  uint   `gorm:"column:create_time;type:int(10) unsigned;default:'0'" json:"create_time"` // 收藏时间
 }

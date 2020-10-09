@@ -5,7 +5,7 @@ type UserLike struct {
 	UserId      uint64 `gorm:"column:user_id;type:bigint(20) unsigned;default:'0'" json:"user_id"`      // 用户 id
 	ObjectId    uint   `gorm:"column:object_id;type:int(10) unsigned;default:'0'" json:"object_id"`     // 内容原来的主键id
 	CreateTime  uint   `gorm:"column:create_time;type:int(10) unsigned;default:'0'" json:"create_time"` // 创建时间
-	TableName   string `gorm:"column:table_name;type:varchar(64);default:''" json:"table_name"`         // 内容以前所在表,不带前缀
+	Table       string `gorm:"column:table_name;type:varchar(64);default:''" json:"table_name"`         // 内容以前所在表,不带前缀
 	Url         string `gorm:"column:url;type:varchar(255);default:''" json:"url"`                      // 内容的原文地址，不带域名
 	Title       string `gorm:"column:title;type:varchar(100);default:''" json:"title"`                  // 内容的标题
 	Thumbnail   string `gorm:"column:thumbnail;type:varchar(100);default:''" json:"thumbnail"`          // 缩略图
