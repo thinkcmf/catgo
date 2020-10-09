@@ -1,8 +1,8 @@
 package user
 
 import (
-	"api_demo/api/user/controller"
 	"github.com/thinkcmf/catgo"
+	"github.com/thinkcmf/catgo/examples/api_demo/api/user/controller"
 )
 
 func init()  {
