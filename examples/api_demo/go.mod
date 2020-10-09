@@ -1,4 +1,4 @@
-module catgo_api_demo
+module api_demo
 
 go 1.15
 

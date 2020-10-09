@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/thinkcmf/catgo/examples/api_demo/api/user/controller"
+	"api_demo/api/user/controller"
 	"github.com/thinkcmf/catgo"
 )
 
