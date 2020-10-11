@@ -1,18 +1,11 @@
 package catgo
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
 )
-
-func init() {
-	path, _ := GetCurrentPath()
-
-	log.Println(path)
-}
 
 func GetCurrentPath() (string, error) {
 	dir, _ := os.Executable()

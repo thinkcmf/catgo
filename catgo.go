@@ -6,18 +6,15 @@ import (
 
 var (
 	Router *gin.Engine
+	currentRouterGroup gin.IRouter
 )
 
-var currentRouterGroup gin.IRouter
-
 func init() {
-	println("catgo init ")
 	gin.SetMode(gin.ReleaseMode)
 	Router = gin.Default()
 	currentRouterGroup = Router
 }
 
 func Run(addr ...string) {
-	println("catgo run ")
 	Router.Run(addr...)
 }

@@ -5,12 +5,6 @@ import (
 	"net/http"
 )
 
-// RouterGroup is used internally to configure router, a RouterGroup is associated with
-// a prefix and an array of handlers (middleware).
-type RouterGroup struct {
-	Group gin.RouterGroup
-}
-
 func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup = Router.Group(relativePath, handlersMap...)
@@ -19,18 +13,7 @@ func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 }
 
 func Handle(httpMethod, relativePath string, handlers ...HandlerFunc) gin.IRouter {
-	//handlersMap := convert2GinHandlers(handlers)
-	//println(currentRouterGroup)
-	var handlersMap []gin.HandlerFunc
-
-	for _, handler := range handlers {
-		handlersMap = append(handlersMap, func(context *gin.Context) {
-			catContext := &Context{
-				Context: context,
-			}
-			handler(catContext)
-		})
-	}
+	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup.Handle(httpMethod, relativePath, handlersMap...)
 	return Router
 }

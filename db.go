@@ -7,7 +7,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"log"
 )
 
 var (
@@ -46,8 +45,6 @@ func ParseMainDbDsn() string {
 
 	databaseConfigContent, _ := php.FileGetContents(configFile)
 
-	println(databaseConfigContent)
-
 	data := []byte(databaseConfigContent)
 	yamlDecoder := yaml.NewDecoder(bytes.NewBuffer(data))
 
@@ -82,11 +79,8 @@ func ParseMainDbDsn() string {
 		}
 	}
 
-	log.Println(configMap)
-
 	dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database +
 		"?charset=" + charset + "&parseTime=True&loc=Local"
 
-	log.Println(dsn)
 	return dsn
 }
