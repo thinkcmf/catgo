@@ -17,7 +17,7 @@ func init() {
 	currentRouterGroup = Router
 }
 
-func Run() {
+func Run(addr ...string) {
 	println("catgo run ")
-	Router.Run()
+	Router.Run(addr...)
 }
