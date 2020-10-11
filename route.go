@@ -78,6 +78,7 @@ func Any(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 	return Router
 }
 
+// convert catgo.HandlerFunc slice to gin.HandlerFunc slice
 func convert2GinHandlers(handlers []HandlerFunc) []gin.HandlerFunc {
 	var handlersMap []gin.HandlerFunc
 
