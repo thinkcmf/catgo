@@ -2,7 +2,7 @@ package catgo
 
 import (
 	"bytes"
-	"github.com/thinkcmf/catgo/php"
+	"github.com/icatgo/php"
 	"gopkg.in/yaml.v2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
