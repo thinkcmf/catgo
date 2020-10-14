@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/thinkcmf/catgo"
 	"github.com/gin-gonic/gin"
+	"github.com/thinkcmf/catgo"
 	"strconv"
 )
 
