@@ -40,8 +40,7 @@ func init() {
 }
 
 func ParseMainDbDsn() string {
-	currentPath, _ := GetCurrentPath()
-	configFile := currentPath + "/conf/database.yml"
+	configFile := "./conf/database.yml"
 
 	databaseConfigContent, _ := php.FileGetContents(configFile)
 
