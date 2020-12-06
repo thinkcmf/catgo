@@ -1,13 +1,22 @@
 package catgo
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
+var groups = make(map[string]gin.IRouter)
+
 func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
-	handlersMap := convert2GinHandlers(handlers)
-	currentRouterGroup = Router.Group(relativePath, handlersMap...)
+	if v, ok := groups[relativePath]; ok {
+		fmt.Println("Route Group:" + relativePath)
+		currentRouterGroup = v
+	} else {
+		fmt.Println("Route Group Not Found")
+		handlersMap := convert2GinHandlers(handlers)
+		currentRouterGroup = Router.Group(relativePath, handlersMap...)
+	}
 
 	return currentRouterGroup
 }
