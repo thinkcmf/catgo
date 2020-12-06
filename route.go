@@ -9,9 +9,12 @@ import (
 var groups = make(map[string]*gin.RouterGroup)
 
 func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+	handlersMap := convert2GinHandlers(handlers)
+
 	if v, ok := groups[relativePath]; ok {
 		fmt.Println("Route Group:" + relativePath)
 		currentRouterGroup = v
+		v.Use(handlersMap...)
 	} else {
 		fmt.Println("Route Group Not Found")
 		handlersMap := convert2GinHandlers(handlers)
