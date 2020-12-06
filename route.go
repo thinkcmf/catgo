@@ -5,6 +5,10 @@ import (
 	"net/http"
 )
 
+// change currentRouterGroup to Router
+func DefaultGroup() {
+	currentRouterGroup = Router
+}
 func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup = Router.Group(relativePath, handlersMap...)
