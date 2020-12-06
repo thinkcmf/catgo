@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var groups = make(map[string]gin.IRouter)
+var groups = make(map[string]*gin.RouterGroup)
 
 func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 	if v, ok := groups[relativePath]; ok {
@@ -15,8 +15,8 @@ func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 	} else {
 		fmt.Println("Route Group Not Found")
 		handlersMap := convert2GinHandlers(handlers)
-		currentRouterGroup = Router.Group(relativePath, handlersMap...)
-		groups[relativePath] = currentRouterGroup
+		groups[relativePath] = Router.Group(relativePath, handlersMap...)
+		currentRouterGroup = groups[relativePath]
 	}
 
 	return currentRouterGroup
