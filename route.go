@@ -16,6 +16,7 @@ func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 		fmt.Println("Route Group Not Found")
 		handlersMap := convert2GinHandlers(handlers)
 		currentRouterGroup = Router.Group(relativePath, handlersMap...)
+		groups[relativePath] = currentRouterGroup
 	}
 
 	return currentRouterGroup
