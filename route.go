@@ -9,7 +9,7 @@ import (
 func DefaultGroup() {
 	currentRouterGroup = Router
 }
-func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func Group(relativePath string, handlers ...interface{}) gin.IRouter {
 	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup = Router.Group(relativePath, handlersMap...)
 
@@ -26,50 +26,50 @@ func Group(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 // This function is intended for bulk loading and to allow the usage of less
 // frequently used, non-standardized or custom methods (e.g. for internal
 // communication with a proxy).
-func Handle(httpMethod, relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func Handle(httpMethod, relativePath string, handlers ...interface{}) gin.IRouter {
 	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup.Handle(httpMethod, relativePath, handlersMap...)
 	return Router
 }
 
 // GET is a shortcut for catgo.Handle("GET", path, handle).
-func GET(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func GET(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodGet, relativePath, handlers...)
 }
 
 // POST is a shortcut for catgo.Handle("POST", path, handle).
-func POST(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func POST(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodPost, relativePath, handlers...)
 }
 
 // DELETE is a shortcut for catgo.Handle("DELETE", path, handle).
-func DELETE(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func DELETE(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodDelete, relativePath, handlers...)
 }
 
 // PUT is a shortcut for catgo.Handle("PUT", path, handle).
-func PUT(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func PUT(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodPut, relativePath, handlers...)
 }
 
 // PATCH is a shortcut for catgo.Handle("PATCH", path, handle).
-func PATCH(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func PATCH(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodPatch, relativePath, handlers...)
 }
 
 // OPTIONS is a shortcut for catgo.Handle("OPTIONS", path, handle).
-func OPTIONS(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func OPTIONS(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodOptions, relativePath, handlers...)
 }
 
 // HEAD is a shortcut for catgo.Handle("HEAD", path, handle).
-func HEAD(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func HEAD(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Handle(http.MethodHead, relativePath, handlers...)
 }
 
 // Any registers a route that matches all the HTTP methods.
 // GET, POST, PUT, PATCH, HEAD, OPTIONS, DELETE, CONNECT, TRACE.
-func Any(relativePath string, handlers ...HandlerFunc) gin.IRouter {
+func Any(relativePath string, handlers ...interface{}) gin.IRouter {
 	Handle(http.MethodGet, relativePath, handlers...)
 	Handle(http.MethodPost, relativePath, handlers...)
 	Handle(http.MethodDelete, relativePath, handlers...)
@@ -83,16 +83,30 @@ func Any(relativePath string, handlers ...HandlerFunc) gin.IRouter {
 }
 
 // convert catgo.HandlerFunc slice to gin.HandlerFunc slice
-func convert2GinHandlers(handlers []HandlerFunc) []gin.HandlerFunc {
+func convert2GinHandlers(handlers []interface{}) []gin.HandlerFunc {
 	var handlersMap []gin.HandlerFunc
 
 	for _, handler := range handlers {
-		handler := handler
-		handlersMap = append(handlersMap, func(context *gin.Context) {
-			handler(&Context{
-				Context: context,
+		switch mHandler := handler.(type) {
+		case HandlerFunc:
+			handlersMap = append(handlersMap, func(context *gin.Context) {
+				mHandler(&Context{
+					Context: context,
+				})
 			})
-		})
+		case func(*Context):
+			handlersMap = append(handlersMap, func(context *gin.Context) {
+				mHandler(&Context{
+					Context: context,
+				})
+			})
+		case gin.HandlerFunc:
+			handlersMap = append(handlersMap, mHandler)
+		case func(*gin.Context):
+			handlersMap = append(handlersMap, mHandler)
+		default:
+			println("unknown handler type")
+		}
 	}
 
 	return handlersMap
