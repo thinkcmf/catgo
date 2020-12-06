@@ -87,11 +87,11 @@ func convert2GinHandlers(handlers []HandlerFunc) []gin.HandlerFunc {
 	var handlersMap []gin.HandlerFunc
 
 	for _, handler := range handlers {
+		handler := handler
 		handlersMap = append(handlersMap, func(context *gin.Context) {
-			catContext := &Context{
+			handler(&Context{
 				Context: context,
-			}
-			handler(catContext)
+			})
 		})
 	}
 
