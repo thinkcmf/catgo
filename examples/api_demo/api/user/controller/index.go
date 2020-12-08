@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/thinkcmf/catgo"
 	"strconv"
@@ -18,8 +19,8 @@ type User struct {
 func (c *IndexController) Index(ctx *catgo.Context) {
 	user := &User{}
 
-	println(catgo.DB)
-	catgo.DB.Debug().Find(user)
+	fmt.Println(catgo.DB)
+	catgo.Db().Debug().Find(user)
 
 	println(strconv.FormatInt(user.ID, 10) + " " + user.UserNickname + " " + user.UserEmail)
 	ctx.JSON(200, gin.H{

@@ -2,6 +2,7 @@ package catgo
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/icatgo/php"
 	"gopkg.in/yaml.v2"
 	"gorm.io/driver/mysql"
@@ -14,8 +15,22 @@ var (
 	DBs map[string]*gorm.DB
 )
 
-func Db(db string) *gorm.DB {
-	return DBs[db]
+func Db(params ...interface{}) *gorm.DB {
+	length := len(params)
+	dbConfig := "default"
+	if length > 0 {
+		if value, ok := params[0].(string); ok {
+			dbConfig = value
+		}
+	}
+
+	var db *gorm.DB
+
+	if _, ok := DBs[dbConfig]; ok {
+		db = DBs[dbConfig]
+	}
+
+	return db
 }
 
 func init() {
@@ -33,7 +48,7 @@ func init() {
 	})
 
 	if err != nil {
-		println(err.Error())
+		fmt.Println(err.Error())
 	}
 
 	DBs["default"] = DB
