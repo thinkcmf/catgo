@@ -29,5 +29,8 @@ func (c *IndexController) Index(ctx *catgo.Context) {
 }
 
 func (c *IndexController) Home(ctx *catgo.Context) {
-	ctx.Success("success", "ddd")
+	headers := map[string]string{
+		"xx-test": "test",
+	}
+	ctx.Success("success", "ddd", headers)
 }
