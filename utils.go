@@ -3,6 +3,7 @@ package catgo
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 )
@@ -31,4 +32,15 @@ func GetCurrentPath() (string, error) {
 	//}
 	//fmt.Println("path333:", path)
 	return path, nil
+}
+
+func CheckMobile(mobile string) bool {
+
+	result, _ := regexp.MatchString(`(^(13\d|14\d|15\d|16\d|17\d|18\d|19\d)\d{8})$`, mobile)
+	if !result {
+		result, _ = regexp.MatchString(`^\d{1,4}-[1-9]\d{4,10}$`, mobile)
+	}
+
+	return result
+
 }

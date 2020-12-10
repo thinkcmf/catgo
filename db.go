@@ -28,12 +28,15 @@ func Db(params ...interface{}) *gorm.DB {
 
 	if _, ok := DBs[dbConfig]; ok {
 		db = DBs[dbConfig]
+	} else if dbConfig == "default" {
+		dbInit()
+		db = DBs[dbConfig]
 	}
 
 	return db
 }
 
-func init() {
+func dbInit() {
 
 	dsn := ParseMainDbDsn()
 

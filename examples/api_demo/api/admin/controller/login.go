@@ -12,7 +12,7 @@ type LoginController struct{}
 func (c *LoginController) Login(ctx *catgo.Context) {
 	user := &model.User{}
 
-	println(catgo.DB)
+	println(catgo.Db())
 	catgo.DB.Debug().Find(user)
 
 	println(strconv.FormatUint(user.Id, 10) + " " + user.UserNickname + " " + user.UserEmail)

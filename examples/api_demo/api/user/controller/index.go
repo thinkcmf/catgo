@@ -19,11 +19,12 @@ type User struct {
 func (c *IndexController) Index(ctx *catgo.Context) {
 	user := &User{}
 
-	fmt.Println(catgo.DB)
+	fmt.Println(catgo.Db())
 	catgo.Db().Debug().Find(user)
 
 	println(strconv.FormatInt(user.ID, 10) + " " + user.UserNickname + " " + user.UserEmail)
-	ctx.JSON(200, gin.H{
+
+	ctx.Success("success", gin.H{
 		"msg": "hello",
 	})
 }
@@ -32,5 +33,6 @@ func (c *IndexController) Home(ctx *catgo.Context) {
 	headers := map[string]string{
 		"xx-test": "test",
 	}
-	ctx.Success("success", "ddd", headers)
+	ctx.Error("err", "ddd", headers)
+
 }
