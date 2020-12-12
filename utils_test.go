@@ -1,6 +1,8 @@
 package catgo
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCheckMobile(t *testing.T) {
 	mobile := "15100001234"
@@ -23,4 +25,9 @@ func TestCheckMobile(t *testing.T) {
 		t.Error(mobile + " CheckMobile error")
 	}
 
+}
+
+func TestUtils(t *testing.T) {
+	IsEmail("xx")
+	IsExistingEmail("dd")
 }

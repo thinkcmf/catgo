@@ -1,6 +1,7 @@
 package catgo
 
 import (
+	"github.com/asaskevich/govalidator"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -44,3 +45,13 @@ func CheckMobile(mobile string) bool {
 	return result
 
 }
+
+var (
+	IsEmail         = govalidator.IsEmail
+	IsExistingEmail = govalidator.IsExistingEmail
+	IsAlpha         = govalidator.IsAlpha
+	IsAlphanumeric  = govalidator.IsAlphanumeric
+	IsBase64        = govalidator.IsBase64
+	IsFloat         = govalidator.IsFloat
+	IsIP            = govalidator.IsIP
+)
