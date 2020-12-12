@@ -2,7 +2,6 @@ module github.com/thinkcmf/catgo
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef
-	github.com/astaxie/beego v1.12.2
 	github.com/gin-gonic/gin v1.6.3
 	github.com/gookit/validate v1.2.5
 	github.com/icatgo/php v0.0.0-20201204143335-134c10990b3c
