@@ -1,0 +1,157 @@
+package catgo
+
+import "strings"
+
+type Validate struct {
+	// validate types
+	types map[string]interface{}
+
+	// validate type default messages
+	typeMsg map[string]string
+
+	// validate type alias
+	alias map[string]string
+
+	// validate rules
+	rules map[string]interface{}
+
+	// validate error messages
+	messages map[string]string
+
+	// fields description
+	fields map[string]string
+
+	// error message or messages
+	error interface{}
+}
+
+func NewValidate() *Validate {
+	return &Validate{
+		types:   map[string]interface{}{},
+		typeMsg: map[string]string{},
+		alias:   map[string]string{},
+		rules: map[string]interface{}{
+			"email": "email|int|eq:1",
+		},
+		messages: map[string]string{},
+		fields:   map[string]string{},
+	}
+}
+
+func (c *Validate) AddRule(name string, rule interface{}) *Validate {
+
+	return c
+}
+
+// data: validate data
+// params[0]: rules is optional
+func (c *Validate) Check(data interface{}, params ...interface{}) {
+	rules := c.rules
+	if len(params) > 0 {
+		if mRules, ok := params[0].(map[string]interface{}); ok {
+			rules = mRules
+		}
+	}
+
+	dataMap := c.parseData(data)
+
+	println(dataMap)
+
+	for field, rule := range rules {
+		println("field:" + field)
+		print("rule:")
+		println(rule)
+
+		// parse field and field's title
+		title := field
+		if strings.Index(field, "|") >= 0 {
+			keyArr := strings.Split(field, "|")
+			field = keyArr[0]
+			title = keyArr[1]
+		} else {
+			if mTitle, ok := c.fields[field]; ok {
+				title = mTitle
+			}
+		}
+		println("title:" + title)
+
+		value := c.getDataValue(field)
+		result := c.checkItem(field, value, rule, data, title)
+
+		println("result:" + result)
+
+	}
+
+}
+
+// data
+func (c *Validate) parseData(data interface{}) map[string]interface{} {
+
+	return nil
+}
+
+// field
+func (c *Validate) getDataValue(field string) interface{} {
+	return nil
+}
+
+// rule msg
+func (c *Validate) getRuleMsg(field, title, rule string, params ...interface{}) string {
+
+	return "rule msg"
+}
+
+// data
+func (c *Validate) checkItem(field string, value, rules, data interface{}, title string) (errMsg string) {
+
+	mRules := c.parseItemRules(rules)
+
+	errMsg = ""
+
+	for rule, ruleValue := range mRules {
+		println("checkItem:rule:" + rule)
+		print("checkItem:ruleValue:")
+		println(ruleValue)
+
+		result := true
+		switch rule {
+		case "eq":
+			if value != ruleValue {
+				result = false
+			}
+
+		}
+
+		if !result {
+			errMsg = c.getRuleMsg(field, title, rule, ruleValue)
+		}
+	}
+
+	return
+}
+
+func (c *Validate) parseItemRules(rules interface{}) map[string]interface{} {
+
+	result := map[string]interface{}{}
+
+	switch mRules := rules.(type) {
+	case string:
+		{
+			println("parseItemRules:mRules", mRules)
+			mRulesArr := strings.Split(mRules, "|")
+			for _, mRule := range mRulesArr {
+				if strings.Index(mRule, ":") >= 0 {
+					mRuleArr := strings.Split(mRule, ":")
+					result[mRuleArr[0]] = mRulesArr[1]
+				} else {
+					result[mRule] = ""
+				}
+			}
+		}
+
+	case map[string]interface{}:
+		result = mRules
+	}
+
+	return result
+}
