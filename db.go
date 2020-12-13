@@ -11,8 +11,9 @@ import (
 )
 
 var (
-	DB  *gorm.DB
-	DBs map[string]*gorm.DB
+	DB       *gorm.DB
+	DBs      map[string]*gorm.DB
+	DBConfig map[string]string
 )
 
 func Db(params ...interface{}) *gorm.DB {
@@ -78,6 +79,7 @@ func ParseMainDbDsn() string {
 	port := "3306"
 	database := ""
 	charset := "utf8mb4"
+	authcode := ""
 
 	for key, value := range configMap {
 		switch key {
@@ -93,11 +95,23 @@ func ParseMainDbDsn() string {
 			database = value
 		case "charset":
 			charset = value
+		case "authcode":
+			authcode = value
 		}
 	}
 
 	dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database +
 		"?charset=" + charset + "&parseTime=True&loc=Local"
+
+	DBConfig = map[string]string{
+		"user":     user,
+		"password": password,
+		"host":     host,
+		"port":     port,
+		"database": database,
+		"charset":  charset,
+		"authcode": authcode,
+	}
 
 	return dsn
 }
