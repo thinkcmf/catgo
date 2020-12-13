@@ -19,7 +19,7 @@ func Password(password string, authCode ...string) string {
 
 func ComparePassword(password, passwordInDb string) bool {
 	result := false
-	if strings.Index(password, "###") >= 0 {
+	if strings.Index(passwordInDb, "###") >= 0 {
 		result = Password(password) == passwordInDb
 	}
 
