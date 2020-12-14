@@ -7,11 +7,16 @@ import (
 
 // change currentRouterGroup to Router
 func DefaultGroup(handlers ...interface{}) {
-	currentRouterGroup = Router
 	handlersMap := convert2GinHandlers(handlers)
 	Router.Use(handlersMap...)
+	currentRouterGroup = Router
 }
+
+// create new route group
+// relativePath,examples: /users /users/:id
+// handlers,examples:gin.HandlerFunc,catgo.HandlerFunc
 func Group(relativePath string, handlers ...interface{}) gin.IRouter {
+
 	handlersMap := convert2GinHandlers(handlers)
 	currentRouterGroup = Router.Group(relativePath, handlersMap...)
 
@@ -107,7 +112,7 @@ func convert2GinHandlers(handlers []interface{}) []gin.HandlerFunc {
 		case func(*gin.Context):
 			handlersMap = append(handlersMap, mHandler)
 		default:
-			println("unknown handler type")
+			panic("unknown route handler type")
 		}
 	}
 
