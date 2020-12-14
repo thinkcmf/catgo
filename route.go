@@ -6,8 +6,10 @@ import (
 )
 
 // change currentRouterGroup to Router
-func DefaultGroup() {
+func DefaultGroup(handlers ...interface{}) {
 	currentRouterGroup = Router
+	handlersMap := convert2GinHandlers(handlers)
+	Router.Use(handlersMap...)
 }
 func Group(relativePath string, handlers ...interface{}) gin.IRouter {
 	handlersMap := convert2GinHandlers(handlers)
