@@ -50,3 +50,17 @@ func (c *Context) Result(msg string, code int, params ...interface{}) {
 		"code": code,
 	})
 }
+
+func (c *Context) SetUserId(userId string) {
+	c.Set("CATGO_USER_ID", userId)
+}
+
+func (c *Context) UserId() string {
+	value, exists := c.Get("CATGO_USER_ID")
+
+	if exists {
+		return value.(string)
+	}
+
+	return ""
+}
