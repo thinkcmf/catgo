@@ -37,11 +37,11 @@ func TestStructCopy(t *testing.T) {
 	src := &struct {
 		Name  string
 		Name2 string
-		Name3 string
+		Name3 int
 	}{
 		Name:  "dddd",
 		Name2: "name2",
-		Name3: "name3",
+		Name3: 1,
 	}
 
 	des := &struct {
