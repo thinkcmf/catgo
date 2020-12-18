@@ -31,3 +31,27 @@ func TestUtils(t *testing.T) {
 	IsEmail("xx")
 	IsExistingEmail("dd")
 }
+
+func TestStructCopy(t *testing.T) {
+	println("--------------TestStructCopy----------------")
+	src := &struct {
+		Name  string
+		Name2 string
+		Name3 string
+	}{
+		Name:  "dddd",
+		Name2: "name2",
+		Name3: "name3",
+	}
+
+	des := &struct {
+		Name  string
+		Name3 string
+	}{}
+
+	StructCopy(src, des)
+
+	Dump(des)
+	println("--------------TestStructCopy----------------")
+
+}

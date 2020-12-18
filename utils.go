@@ -2,6 +2,7 @@ package catgo
 
 import (
 	"github.com/asaskevich/govalidator"
+	"github.com/rocket049/gostructcopy"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -44,6 +45,11 @@ func CheckMobile(mobile string) bool {
 
 	return result
 
+}
+
+//StructCopy copy the exported value of a struct to a likely struct , with reflect.
+func StructCopy(src, des interface{}) error {
+	return gostructcopy.StructCopy(src, des)
 }
 
 var (
