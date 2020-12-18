@@ -2,6 +2,7 @@ package catgo
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/thinkcmf/catgo/errors"
 	"net/http"
 )
 
@@ -89,6 +90,19 @@ func Any(relativePath string, handlers ...interface{}) gin.IRouter {
 	return Router
 }
 
+func catchHandlerErrors(context *gin.Context) {
+	if err := recover(); err != nil {
+		if mErr, ok := err.(errors.HttpResponseError); ok {
+			switch mErr.Type {
+			case "JSON":
+				context.JSON(mErr.HTTPCode, mErr.Data)
+			case "JSONP":
+				context.JSONP(mErr.HTTPCode, mErr.Data)
+			}
+		}
+	}
+}
+
 // convert catgo.HandlerFunc slice to gin.HandlerFunc slice
 func convert2GinHandlers(handlers []interface{}) []gin.HandlerFunc {
 	var handlersMap []gin.HandlerFunc
@@ -97,12 +111,16 @@ func convert2GinHandlers(handlers []interface{}) []gin.HandlerFunc {
 		switch mHandler := handler.(type) {
 		case HandlerFunc:
 			handlersMap = append(handlersMap, func(context *gin.Context) {
+				defer catchHandlerErrors(context)
+
 				mHandler(&Context{
 					Context: context,
 				})
 			})
 		case func(*Context):
 			handlersMap = append(handlersMap, func(context *gin.Context) {
+				defer catchHandlerErrors(context)
+
 				mHandler(&Context{
 					Context: context,
 				})

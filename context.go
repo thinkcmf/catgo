@@ -2,6 +2,7 @@ package catgo
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/thinkcmf/catgo/errors"
 )
 
 type Context struct {
@@ -44,11 +45,17 @@ func (c *Context) Result(msg string, code int, params ...interface{}) {
 		}
 	}
 
-	c.JSON(200, gin.H{
-		"msg":  msg,
-		"data": data,
-		"code": code,
-	})
+	responseError := errors.HttpResponseError{
+		HTTPCode: 200,
+		Data: gin.H{
+			"msg":  msg,
+			"data": data,
+			"code": code,
+		},
+		Message: msg,
+		Type:    "JSON",
+	}
+	panic(responseError)
 }
 
 func (c *Context) SetUserId(userId string) {
