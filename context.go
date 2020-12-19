@@ -3,6 +3,7 @@ package catgo
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/thinkcmf/catgo/errors"
+	"strconv"
 )
 
 type Context struct {
@@ -58,10 +59,12 @@ func (c *Context) Result(msg string, code int, params ...interface{}) {
 	panic(responseError)
 }
 
+// set user id
 func (c *Context) SetUserId(userId string) {
 	c.Set("CATGO_USER_ID", userId)
 }
 
+// get user id
 func (c *Context) UserId() string {
 	value, exists := c.Get("CATGO_USER_ID")
 
@@ -115,4 +118,41 @@ func (c *Context) ShouldBindFailError(obj interface{}, msg ...string) {
 			c.Error(err.Error())
 		}
 	}
+}
+
+// param int64
+func (c *Context) ParamInt64(key string) (result int64) {
+
+	result, _ = strconv.ParseInt(c.Param(key), 10, 64)
+
+	return
+}
+
+// param uint64
+func (c *Context) ParamUint64(key string) (result uint64) {
+
+	result, _ = strconv.ParseUint(c.Param(key), 10, 64)
+
+	return
+}
+
+// param int
+func (c *Context) ParamInt(key string) (result int) {
+
+	result, _ = strconv.Atoi(c.Param(key))
+
+	return
+}
+
+// param int
+func (c *Context) ParamUint(key string) (result uint) {
+
+	r, err := strconv.ParseUint(c.Param(key), 10, 32)
+
+	if err != nil {
+		result = 0
+	} else {
+		result = uint(r)
+	}
+	return
 }
