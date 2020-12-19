@@ -157,6 +157,59 @@ func (c *Context) ParamUint(key string) (result uint) {
 	return
 }
 
+// param int64 with default value defaultResult
+func (c *Context) DefaultParamInt64(key string, defaultResult int64) (result int64) {
+
+	result, _ = strconv.ParseInt(c.Param(key), 10, 64)
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
+// param uint64 with default value defaultResult
+func (c *Context) DefaultParamUint64(key string, defaultResult uint64) (result uint64) {
+
+	result, _ = strconv.ParseUint(c.Param(key), 10, 64)
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
+// param int with default value defaultResult
+func (c *Context) DefaultParamInt(key string, defaultResult int) (result int) {
+
+	result, _ = strconv.Atoi(c.Param(key))
+
+	if result == 0 {
+		result = defaultResult
+	}
+	return
+}
+
+// param int with default value defaultResult
+func (c *Context) DefaultParamUint(key string, defaultResult uint) (result uint) {
+
+	r, err := strconv.ParseUint(c.Param(key), 10, 32)
+
+	if err != nil {
+		result = 0
+	} else {
+		result = uint(r)
+	}
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
 // query int64
 func (c *Context) QueryInt64(key string) (result int64) {
 
@@ -191,5 +244,60 @@ func (c *Context) QueryUint(key string) (result uint) {
 	} else {
 		result = uint(r)
 	}
+
+	return
+}
+
+// query int64 with default value defaultResult
+func (c *Context) DefaultQueryInt64(key string, defaultResult int64) (result int64) {
+
+	result, _ = strconv.ParseInt(c.Query(key), 10, 64)
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
+// query uint64 with default value defaultResult
+func (c *Context) DefaultQueryUint64(key string, defaultResult uint64) (result uint64) {
+
+	result, _ = strconv.ParseUint(c.Query(key), 10, 64)
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
+// query int with default value defaultResult
+func (c *Context) DefaultQueryInt(key string, defaultResult int) (result int) {
+
+	result, _ = strconv.Atoi(c.Query(key))
+
+	if result == 0 {
+		result = defaultResult
+	}
+
+	return
+}
+
+// query int with default value defaultResult
+func (c *Context) DefaultQueryUint(key string, defaultResult uint) (result uint) {
+
+	r, err := strconv.ParseUint(c.Query(key), 10, 32)
+
+	if err != nil {
+		result = 0
+	} else {
+		result = uint(r)
+	}
+
+	if result == 0 {
+		result = defaultResult
+	}
+
 	return
 }
