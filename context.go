@@ -72,6 +72,7 @@ func (c *Context) UserId() string {
 	return ""
 }
 
+// Validate data then fail error
 func (c *Context) ValidateFailError(data interface{}, scene ...string) {
 
 	if result, msg := Validate(data, scene...); !result {
@@ -79,6 +80,31 @@ func (c *Context) ValidateFailError(data interface{}, scene ...string) {
 	}
 }
 
+// ShouldBind & Validate data then fail error
+func (c *Context) ShouldBindValidateFailError(obj interface{}, msg1scene2 ...string) {
+	msg1scene2Length := len(msg1scene2)
+	err := c.ShouldBind(obj)
+	if err != nil {
+		if msg1scene2Length > 0 {
+			c.Error(msg1scene2[0])
+		} else {
+			c.Error(err.Error())
+		}
+	}
+
+	scene := make([]string, 0)
+
+	if msg1scene2Length > 1 {
+		scene = msg1scene2[1:]
+	}
+
+	if result, msg := Validate(obj, scene...); !result {
+		c.Error(msg)
+	}
+
+}
+
+// ShouldBind  data then fail error
 func (c *Context) ShouldBindFailError(obj interface{}, msg ...string) {
 
 	err := c.ShouldBind(obj)
