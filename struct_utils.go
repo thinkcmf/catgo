@@ -64,6 +64,20 @@ func StructFill(src, dst interface{}) error {
 	return nil
 }
 
+func Strut2Map(src interface{}, dst map[string]interface{}) error {
+
+	srcV, err := srcFilter(src)
+	if err != nil {
+		return err
+	}
+
+	for i := 0; i < srcV.NumField(); i++ {
+		dst[srcV.Type().Field(i).Name] = srcV.Field(i).Interface()
+	}
+
+	return nil
+}
+
 func srcFilter(src interface{}) (reflect.Value, error) {
 	v := reflect.ValueOf(src)
 	if v.Type().Kind() == reflect.Ptr {

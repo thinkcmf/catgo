@@ -52,7 +52,11 @@ func TestStructCopy(t *testing.T) {
 	StructCopy(src, des)
 	StructFill(src, des)
 
-	Dump(des)
+	dstMap:=make(map[string]interface{})
+
+	Strut2Map(src,dstMap)
+
+	Dump(dstMap)
 	println("--------------TestStructCopy----------------")
 
 }
