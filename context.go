@@ -71,3 +71,22 @@ func (c *Context) UserId() string {
 
 	return ""
 }
+
+func (c *Context) ValidateFailError(data interface{}, scene ...string) {
+
+	if result, msg := Validate(data, scene...); !result {
+		c.Error(msg)
+	}
+}
+
+func (c *Context) ShouldBindFailError(obj interface{}, msg ...string) {
+
+	err := c.ShouldBind(obj)
+	if err != nil {
+		if len(msg) > 0 {
+			c.Error(msg[0])
+		} else {
+			c.Error(err.Error())
+		}
+	}
+}
