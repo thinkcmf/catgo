@@ -50,6 +50,7 @@ func TestStructCopy(t *testing.T) {
 	}{}
 
 	StructCopy(src, des)
+	StructFill(src, des)
 
 	Dump(des)
 	println("--------------TestStructCopy----------------")

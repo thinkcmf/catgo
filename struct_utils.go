@@ -35,6 +35,35 @@ func StructCopy(src, dst interface{}) error {
 	return nil
 }
 
+func StructFill(src, dst interface{}) error {
+	srcV, err := srcFilter(src)
+	if err != nil {
+		return err
+	}
+	dstV, err := dstFilter(dst)
+	if err != nil {
+		return err
+	}
+	srcKeys := make(map[string]string)
+	for i := 0; i < srcV.NumField(); i++ {
+		srcKeys[srcV.Type().Field(i).Name] = srcV.Type().Field(i).Type.Name()
+	}
+
+	for i := 0; i < dstV.Elem().NumField(); i++ {
+		fName := dstV.Elem().Type().Field(i).Name
+		fTypeName := dstV.Elem().Type().Field(i).Type.Name()
+		if srcFTypeName, ok := srcKeys[fName]; ok && fTypeName == srcFTypeName {
+			v := srcV.FieldByName(dstV.Elem().Type().Field(i).Name)
+			v2 := dstV.Elem().Field(i)
+			if v.CanInterface() && v2.IsZero() && !v.IsZero() {
+				dstV.Elem().Field(i).Set(v)
+			}
+		}
+	}
+
+	return nil
+}
+
 func srcFilter(src interface{}) (reflect.Value, error) {
 	v := reflect.ValueOf(src)
 	if v.Type().Kind() == reflect.Ptr {
