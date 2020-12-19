@@ -156,3 +156,40 @@ func (c *Context) ParamUint(key string) (result uint) {
 	}
 	return
 }
+
+// query int64
+func (c *Context) QueryInt64(key string) (result int64) {
+
+	result, _ = strconv.ParseInt(c.Query(key), 10, 64)
+
+	return
+}
+
+// query uint64
+func (c *Context) QueryUint64(key string) (result uint64) {
+
+	result, _ = strconv.ParseUint(c.Query(key), 10, 64)
+
+	return
+}
+
+// query int
+func (c *Context) QueryInt(key string) (result int) {
+
+	result, _ = strconv.Atoi(c.Query(key))
+
+	return
+}
+
+// query int
+func (c *Context) QueryUint(key string) (result uint) {
+
+	r, err := strconv.ParseUint(c.Query(key), 10, 32)
+
+	if err != nil {
+		result = 0
+	} else {
+		result = uint(r)
+	}
+	return
+}
