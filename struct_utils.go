@@ -54,8 +54,8 @@ func StructFill(src, dst interface{}) error {
 		fTypeName := dstV.Elem().Type().Field(i).Type.Name()
 		if srcFTypeName, ok := srcKeys[fName]; ok && fTypeName == srcFTypeName {
 			v := srcV.FieldByName(dstV.Elem().Type().Field(i).Name)
-			v2 := dstV.Elem().Field(i)
-			if v.CanInterface() && v2.IsZero() && !v.IsZero() {
+			//v2 := dstV.Elem().Field(i)
+			if v.CanInterface() && !v.IsZero() {
 				dstV.Elem().Field(i).Set(v)
 			}
 		}
