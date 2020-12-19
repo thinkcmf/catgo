@@ -64,7 +64,7 @@ func StructFill(src, dst interface{}) error {
 	return nil
 }
 
-func Strut2Map(src interface{}, dst map[string]interface{}) error {
+func Struct2Map(src interface{}, dst map[string]interface{}) error {
 
 	srcV, err := srcFilter(src)
 	if err != nil {
