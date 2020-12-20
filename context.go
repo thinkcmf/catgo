@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/thinkcmf/catgo/errors"
 	"strconv"
+	"strings"
 )
 
 type Context struct {
@@ -144,7 +145,7 @@ func (c *Context) ParamInt(key string) (result int) {
 	return
 }
 
-// param int
+// param uint
 func (c *Context) ParamUint(key string) (result uint) {
 
 	r, err := strconv.ParseUint(c.Param(key), 10, 32)
@@ -192,7 +193,7 @@ func (c *Context) DefaultParamInt(key string, defaultResult int) (result int) {
 	return
 }
 
-// param int with default value defaultResult
+// param uint with default value defaultResult
 func (c *Context) DefaultParamUint(key string, defaultResult uint) (result uint) {
 
 	r, err := strconv.ParseUint(c.Param(key), 10, 32)
@@ -284,7 +285,7 @@ func (c *Context) DefaultQueryInt(key string, defaultResult int) (result int) {
 	return
 }
 
-// query int with default value defaultResult
+// query uint with default value defaultResult
 func (c *Context) DefaultQueryUint(key string, defaultResult uint) (result uint) {
 
 	r, err := strconv.ParseUint(c.Query(key), 10, 32)
@@ -297,6 +298,34 @@ func (c *Context) DefaultQueryUint(key string, defaultResult uint) (result uint)
 
 	if result == 0 {
 		result = defaultResult
+	}
+
+	return
+}
+
+// parse query page
+// defaultPageSize 10
+func (c *Context) QueryPage(defaultPageSize ...int) (page, pageSize int) {
+
+	pageStr := c.Query("page")
+
+	if pageStr != "" {
+		pageArr := strings.Split(pageStr, ",")
+		pageArrLength := len(pageArr)
+		if len(pageArr) == 1 {
+			page, _ = strconv.Atoi(pageArr[0])
+		} else if pageArrLength == 2 {
+			page, _ = strconv.Atoi(pageArr[0])
+			pageSize, _ = strconv.Atoi(pageArr[1])
+		}
+	}
+
+	if page == 0 {
+		page = 1
+	}
+
+	if pageSize == 0 {
+		pageSize = 1
 	}
 
 	return
