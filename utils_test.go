@@ -46,15 +46,18 @@ func TestStructCopy(t *testing.T) {
 
 	des := &struct {
 		Name  string
-		Name3 string
+		Name3 int
 	}{}
 
-	StructCopy(src, des)
+	StructCopy(src, des, "Name2,Name")
+
+	Dump(des)
+	println("StructCopy")
 	StructFill(src, des)
 
-	dstMap:=make(map[string]interface{})
+	dstMap := make(map[string]interface{})
 
-	Struct2Map(src,dstMap)
+	Struct2Map(src, dstMap)
 
 	Dump(dstMap)
 	println("--------------TestStructCopy----------------")

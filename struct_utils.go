@@ -5,10 +5,21 @@ package catgo
 import (
 	"errors"
 	"reflect"
+	"strings"
 )
 
 //StructCopy copy the exported value of a struct to a likely struct , with reflect.
-func StructCopy(src, dst interface{}) error {
+func StructCopy(src, dst interface{}, ignoreFields ...string) error {
+	ignoredFieldMap := map[string]string{}
+
+	if len(ignoreFields) == 1 {
+		ignoreFieldsArr := strings.Split(ignoreFields[0], ",")
+
+		for _, ignoreField := range ignoreFieldsArr {
+			ignoredFieldMap[ignoreField] = ignoreField
+		}
+	}
+
 	srcV, err := srcFilter(src)
 	if err != nil {
 		return err
@@ -19,7 +30,11 @@ func StructCopy(src, dst interface{}) error {
 	}
 	srcKeys := make(map[string]string)
 	for i := 0; i < srcV.NumField(); i++ {
-		srcKeys[srcV.Type().Field(i).Name] = srcV.Type().Field(i).Type.Name()
+		fieldName := srcV.Type().Field(i).Name
+		if _, ok := ignoredFieldMap[fieldName]; !ok {
+			srcKeys[fieldName] = srcV.Type().Field(i).Type.Name()
+		}
+
 	}
 	for i := 0; i < dstV.Elem().NumField(); i++ {
 		fName := dstV.Elem().Type().Field(i).Name
