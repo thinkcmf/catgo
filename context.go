@@ -325,7 +325,11 @@ func (c *Context) QueryPage(defaultPageSize ...int) (page, pageSize int) {
 	}
 
 	if pageSize == 0 {
-		pageSize = 1
+		if len(defaultPageSize) > 0 {
+			pageSize = defaultPageSize[0]
+		} else {
+			pageSize = 10
+		}
 	}
 
 	if pageSize > 500 {
