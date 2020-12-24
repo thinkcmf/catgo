@@ -106,7 +106,6 @@ func ParseMainDbDsn() string {
 	port := "3306"
 	database := ""
 	charset := "utf8mb4"
-	authcode := ""
 
 	for key, value := range configMap {
 		switch key {
@@ -123,7 +122,6 @@ func ParseMainDbDsn() string {
 		case "charset":
 			charset = value
 		case "authcode":
-			authcode = value
 		}
 	}
 
