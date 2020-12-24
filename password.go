@@ -11,7 +11,9 @@ func Password(password string, authCode ...string) string {
 	if len(authCode) > 0 {
 		mAuthCode = authCode[0]
 	} else {
-		mAuthCode = DBConfig["authcode"]
+		if value, ok := DBConfig["authcode"]; ok {
+			mAuthCode = value
+		}
 	}
 
 	return "###" + php.Md5(php.Md5(mAuthCode+password))
