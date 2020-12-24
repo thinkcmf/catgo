@@ -37,6 +37,27 @@ func Db(params ...interface{}) *gorm.DB {
 	return db
 }
 
+func Gorm(params ...interface{}) *gorm.DB {
+	length := len(params)
+	dbConfig := "default"
+	if length > 0 {
+		if value, ok := params[0].(string); ok {
+			dbConfig = value
+		}
+	}
+
+	var db *gorm.DB
+
+	if _, ok := DBs[dbConfig]; ok {
+		db = DBs[dbConfig]
+	} else if dbConfig == "default" {
+		dbInit()
+		db = DBs[dbConfig]
+	}
+
+	return db
+}
+
 func dbInit() {
 
 	dsn := ParseMainDbDsn()
@@ -56,6 +77,12 @@ func dbInit() {
 	}
 
 	DBs["default"] = DB
+
+	if debug, ok := DBConfig["debug"]; ok {
+		if debug == "true" {
+			DBs["default"] = DB.Debug()
+		}
+	}
 }
 
 func ParseMainDbDsn() string {
