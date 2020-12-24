@@ -130,15 +130,7 @@ func ParseMainDbDsn() string {
 	dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database +
 		"?charset=" + charset + "&parseTime=True&loc=Local"
 
-	DBConfig = map[string]string{
-		"user":     user,
-		"password": password,
-		"host":     host,
-		"port":     port,
-		"database": database,
-		"charset":  charset,
-		"authcode": authcode,
-	}
+	DBConfig = configMap
 
 	return dsn
 }
