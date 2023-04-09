@@ -86,7 +86,7 @@ func dbInit() {
 }
 
 func ParseMainDbDsn() string {
-	configFile := "./conf/database.yml"
+	configFile := "./data/config/database.yml"
 
 	databaseConfigContent, _ := php.FileGetContents(configFile)
 
