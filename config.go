@@ -1,8 +1,9 @@
 package catgo
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -66,6 +67,7 @@ func (t *Config) ReadDataBaseConfig() map[string]string {
 	port := t.GetString("port")
 	database := t.GetString("database")
 	charset := t.GetString("charset")
+	prefix := t.GetString("prefix")
 	authcode := t.GetString("authcode")
 	jwt_secret := t.GetString("jwt_secret")
 	debug := t.GetString("debug")
@@ -76,6 +78,7 @@ func (t *Config) ReadDataBaseConfig() map[string]string {
 		"port":       port,
 		"database":   database,
 		"charset":    charset,
+		"prefix":     prefix,
 		"authcode":   authcode,
 		"jwt_secret": jwt_secret,
 		"debug":      debug,
