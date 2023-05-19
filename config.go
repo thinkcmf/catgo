@@ -47,3 +47,37 @@ func (t *Config) Set(key string, value interface{}) {
 func (t *Config) SetDefault(key string, value interface{}) {
 	viper.SetDefault(key, value)
 }
+
+func (t *Config) ReadDataBaseConfig() map[string]string {
+	t.ReadConfig("database")
+	t.SetDefault("user", "root")
+	t.SetDefault("password", "")
+	t.SetDefault("port", "3306")
+	t.SetDefault("host", "mysql")
+	t.SetDefault("database", "thinkcmf")
+	t.SetDefault("charset", "utf8mb4")
+	t.SetDefault("prefix", "cmf_")
+	t.SetDefault("authcode", "")
+	t.SetDefault("jwt_secret", "")
+	t.SetDefault("debug", "false")
+	user := t.GetString("user")
+	password := t.GetString("password")
+	host := t.GetString("host")
+	port := t.GetString("port")
+	database := t.GetString("database")
+	charset := t.GetString("charset")
+	authcode := t.GetString("authcode")
+	jwt_secret := t.GetString("jwt_secret")
+	debug := t.GetString("debug")
+	return map[string]string{
+		"user":       user,
+		"password":   password,
+		"host":       host,
+		"port":       port,
+		"database":   database,
+		"charset":    charset,
+		"authcode":   authcode,
+		"jwt_secret": jwt_secret,
+		"debug":      debug,
+	}
+}
