@@ -2,7 +2,6 @@ package catgo
 
 import (
 	"fmt"
-	"github.com/thinkcmf/catgo/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -84,7 +83,7 @@ func dbInit() {
 }
 
 func ParseMainDbDsn() string {
-	dbConfig := (config.New()).ReadDataBaseConfig()
+	dbConfig := (NewConfig()).ReadDataBaseConfig()
 
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
