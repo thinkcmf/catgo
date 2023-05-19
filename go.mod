@@ -7,6 +7,7 @@ require (
 	github.com/gookit/validate v1.2.5
 	github.com/icatgo/php v0.0.0-20201212094859-9cfa4ae5e813
 	github.com/liudng/godump v0.0.0-20150708094948-5c7e73aafb21
+	github.com/spf13/viper v1.15.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.0.3
 	gorm.io/gorm v1.20.8

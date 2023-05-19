@@ -1,10 +1,8 @@
 package catgo
 
 import (
-	"bytes"
 	"fmt"
-	"github.com/icatgo/php"
-	"gopkg.in/yaml.v2"
+	"github.com/thinkcmf/catgo/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -67,8 +65,8 @@ func dbInit() {
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   "cmf_", // 表名前缀，`User` 的表名应该是 `t_users`
-			SingularTable: true,   // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
+			TablePrefix:   DBConfig["prefix"], // 表名前缀，`User` 的表名应该是 `t_users`
+			SingularTable: true,               // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
 		},
 	})
 
@@ -86,49 +84,19 @@ func dbInit() {
 }
 
 func ParseMainDbDsn() string {
-	configFile := "./data/config/database.yml"
+	dbConfig := (config.New()).ReadDataBaseConfig()
 
-	databaseConfigContent, _ := php.FileGetContents(configFile)
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
+		dbConfig["user"],
+		dbConfig["password"],
+		dbConfig["host"],
+		dbConfig["port"],
+		dbConfig["database"],
+		dbConfig["charset"],
+	)
 
-	data := []byte(databaseConfigContent)
-	yamlDecoder := yaml.NewDecoder(bytes.NewBuffer(data))
-
-	var configMap map[string]string
-	err2 := yamlDecoder.Decode(&configMap)
-
-	if err2 != nil {
-		println(err2.Error())
-	}
-
-	user := "root"
-	password := ""
-	host := "127.0.0.1"
-	port := "3306"
-	database := ""
-	charset := "utf8mb4"
-
-	for key, value := range configMap {
-		switch key {
-		case "user":
-			user = value
-		case "password":
-			password = value
-		case "host":
-			host = value
-		case "port":
-			port = value
-		case "database":
-			database = value
-		case "charset":
-			charset = value
-		case "authcode":
-		}
-	}
-
-	dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + database +
-		"?charset=" + charset + "&parseTime=True&loc=Local"
-
-	DBConfig = configMap
+	DBConfig = dbConfig
 
 	return dsn
 }
